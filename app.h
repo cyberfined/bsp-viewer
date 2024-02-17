@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdbool.h>
-#include <stdint.h>
+#include "bool.h"
+#include "platform.h"
 
 typedef enum {
     KEY_UNKNOWN,

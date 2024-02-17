@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include "platform.h"
 
 #define S8(str) (s8) { (uint8_t*)str, sizeof(str) - 1 }
 

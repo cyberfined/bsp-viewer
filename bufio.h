@@ -1,9 +1,10 @@
 #pragma once
 
-#include <stdint.h>
-#include <stdbool.h>
+#include "platform.h"
+#include "bool.h"
 #include "string.h"
 #include "platform.h"
+#include "varg.h"
 
 typedef struct {
     uint8_t       *buf;

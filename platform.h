@@ -7,3 +7,7 @@
 #else
   #error "your os is not suported"
 #endif
+
+#ifndef NULL
+#define NULL ((void*)0)
+#endif

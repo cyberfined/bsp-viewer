@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include "platform.h"
 
 typedef struct {
     uint32_t year;
