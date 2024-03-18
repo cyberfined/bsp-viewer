@@ -1,46 +1,28 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.13)
 project(bsp-viewer)
 
-#set(SOURCES
-#    bufio.c
-#    string.c
-#    log.c
-#    load_gl.c
-#    file.c
-#    shader.c
-#    app.c
-#)
+add_subdirectory(winlib)
 
 set(SOURCES
-    bufio.c
-    string.c
-    file.c
-    log.c
-    main.c
+    app.c
+    bsp.c
 )
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g3 -O0 -Wall -Wno-builtin-declaration-mismatch -fno-builtin -std=c11")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostartfiles -nostdlib -nodefaultlibs")
+
+set(CMAKE_CONFIGURATION_TYPES "Debug" "Release")
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_FLAGS_RELEASE "-O2 -Wall -Wno-builtin-declaration-mismatch -fno-builtin")
+set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -DWINLIB_DEBUG -Wall -Wno-builtin-declaration-mismatch -fno-builtin")
 
 IF(WIN32)
-    list(APPEND SOURCES
-         win32/main.c
-         win32/file.c
-         win32/time.c
-         win32/exit.c
-         win32/error.c
-    )
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-asynchronous-unwind-tables")
-ELSEIF(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    list(APPEND SOURCES
-        linux/file.c
-        linux/time.c
-        linux/exit.c
-        linux/error.c
-    )
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fno-asynchronous-unwind-tables")
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fno-asynchronous-unwind-tables")
 ENDIF()
 
 add_executable(bsp-viewer ${SOURCES})
 
 IF(WIN32)
-    target_link_libraries(bsp-viewer kernel32 opengl32)
+    target_link_options(bsp-viewer PRIVATE "-nostdlib" PRIVATE "-nodefaultlibs")
 ENDIF()
+
+target_include_directories(bsp-viewer PRIVATE winlib/include)
+target_link_libraries(bsp-viewer winlib)
